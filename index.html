@@ -1,0 +1,250 @@
+<!doctype>
+<html>
+    <head>
+      <style media="screen">
+        body {
+          font-family: cursive;
+          margin: 0;
+          padding: 0;
+        }
+
+        .btn {
+          height: 30px;
+          line-height: 30px;
+          width: 100px;
+          color: #fff;
+          background: green;
+          border: none;
+          box-shadow: 0 0 20px 5px #ccc;
+        }
+
+        h1 {
+          text-align: center;
+        }
+
+        .input, .search, .remove, .edit {
+          border: 1px solid green;
+          background: #f4f4f4;
+          height: auto;
+        }
+
+        input[type="text"] {
+          height: 30px;
+          width: 100%;
+          border-radius: 10px;
+        }
+
+        .buttons {
+          padding-top: 50px;
+          display: flex;
+          justify-content: space-around;
+
+        }
+
+        h3 {
+          text-align: center;
+        }
+      </style>
+
+    </head>
+
+    <body>
+        <h1>MurshHood's Address Book</h1>
+         <h3>The home where contacts lies</h3>
+        <div class="buttons">
+          <button class="btn" id="inputContact">New</button>
+          <button class="btn" id="searchContact">Search</button>
+          <button class="btn" id="removeContact">Remove</button>
+          <button class="btn" id="editContact">Edit</button>
+        </div>
+          <div class="input">
+              <h1>Input your contact details</h1>
+              <div>
+                  <label>Name</label><br />
+                  <input type="text" class="contact" id="name">
+              </div>
+              <div>
+                  <label>Residential Address</label><br />
+                  <input type="text" class="contact" id="address">
+              </div>
+              <div>
+                  <label>Email Address</label><br />
+                  <input type="text" class="contact" id="email">
+              </div>
+              <div>
+                  <label>Phone Number</label><br />
+                  <input type="text" class="contact" id="phone">
+              </div>
+              <div>
+                  <label>Fax</label><br />
+                  <input type="text" class="contact" id="fax">
+              </div>
+
+              <br />
+              <input class="btn" type="button" onclick="add();" value="Add Details" />
+              <input class="btn" type="button" onclick="show();" value="Show Details" />
+          </div>
+
+           <br />
+           <br />
+
+           <div class="search">
+            <h1>Search Contact</h1>
+           <div>
+                <label>Search Contact</label><br />
+                <input type="text" id="search" />
+            </div>
+            <br />
+            <input class="btn" type="button" onclick="displayContact(search.value);" value="Display Details" />
+          </div>
+           <br />
+           <br />
+
+            <div class="remove">
+               <h1>Remove Contact</h1>
+               <div>
+                    <label>Remove Contact</label><br />
+                    <input type="text" id="remove" />
+                </div>
+                <br />
+                <input class="btn" type="button" onclick="removeContact(remove.value);" value="Remove Contact" />
+            </div>
+           <br />
+           <br />
+
+           <div class="edit">
+           <h1>Edit Contact Name</h1>
+           <div>
+                <label>Old Contact</label><br />
+                <input type="text" id="oldContact" />
+            </div>
+            <div>
+                <label>New Contact</label><br />
+                <input type="text" id="newContact" />
+            </div>
+
+            <br />
+            <input class="btn" type="button" onclick="editInfo(old.value, newOne.value);" value="Edit Details" />
+          </div>
+
+<div class="showRoom">
+
+</div>
+        <script src="jquery.js"></script>
+
+        <script>
+        jQuery(".input, .search, .remove, .edit").hide();
+
+          jQuery(function() {
+            jQuery("#inputContact").click(function(){
+              jQuery(".input").show();
+              jQuery(".search, .remove, .edit").hide();
+
+            });
+
+            jQuery("#searchContact").click(function(){
+              jQuery(".search").show();
+              jQuery(".input, .remove, .edit").hide();
+
+            });
+
+            jQuery("#removeContact").click(function(){
+              jQuery(".remove").show();
+              jQuery(".input, .search, .edit").hide();
+
+            });
+
+            jQuery("#editContact").click(function(){
+              jQuery(".edit").show();
+              jQuery(".input, .search, .remove").hide();
+
+            });
+          });
+
+            var myName = document.getElementById("name");
+            var myAddress = document.getElementById("address");
+            var myEmail = document.getElementById("email");
+            var myPhone = document.getElementById("phone");
+            var myFax = document.getElementById("fax");
+            var search = document.getElementById("search");
+            var remove = document.getElementById("remove");
+            var old = document.getElementById("oldContact");
+            var newOne = document.getElementById("newContact");
+
+            function Details(name, address, email, phone, fax) {
+                this.name = name,
+                this.address = address;
+                this.email = email;
+                this.phone = phone;
+                this.fax = fax;
+            }
+
+            var addressBook = [];
+
+
+
+            //ADD CONTACT TO ADDRESS BOOK
+
+            function add() {
+              var nameDetails;
+              nameDetails = myName.value;
+                nameDetails = new Details(myName.value,myAddress.value,myEmail.value,myPhone.value,myFax.value);
+                addressBook.push(nameDetails);
+                console.log(nameDetails);
+                console.log("Contact Added");
+
+            }
+
+
+            //SHOW ALL CONTACTS ON ADDRESS BOOK
+
+            function show()  {
+              console.log(addressBook);
+            }
+
+
+
+
+            //DISPLAY CONTACT DETAILS BY NAME
+
+            function displayContact(contactName) {
+                for(i = 0; i < addressBook.length; i++) {
+                    if(addressBook[i].name == contactName) {
+                      console.log(addressBook[i]);
+                    }
+                }
+            }
+
+
+
+
+            //REMOVE CONTACT FROM ADDRESS BOOK
+
+            function removeContact(contact) {
+                for(i = 0; i < addressBook.length; i++) {
+                    if(addressBook[i].name == contact) {
+                        addressBook.splice(i,1);
+                        console.log(contact + " removed");
+                        console.log(addressBook);
+                    }
+                }
+            }
+
+
+
+
+            //EDIT CONTACT INFO
+
+            function editInfo(contact, newInfo) {
+                for(i = 0; i < addressBook.length; i++) {
+                    if (addressBook[i].name == contact) {
+                        addressBook[i].name = newInfo;
+                        console.log("Change successfully changed to "+ newInfo);
+                    }
+                }
+            }
+
+       </script>
+
+    </body>
+</html>
